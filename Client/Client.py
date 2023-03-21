@@ -10,8 +10,7 @@ print("Connection on {}".format(port))
 endingmessage = "End Of Transmission"
 string = "A"
 
-#Reception liste de message
-'''
+
     # Limite de caractères imposé par le paquet que l'on envoie
     bytesconvert = bytes(string, "utf-8")
     socket.send(bytesconvert)
