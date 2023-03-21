@@ -10,11 +10,9 @@ print("Connection on {}".format(port))
 endingmessage = "End Of Transmission"
 string = "A"
 
-
-    # Limite de caractères imposé par le paquet que l'on envoie
-    bytesconvert = bytes(string, "utf-8")
-    socket.send(bytesconvert)
-    Data = []
-    recepted = socket.recv(2048)
-    recepted_string = pickle.loads(recepted)
-    print(recepted_string)
+bytesconvert = bytes(string, "utf-8")
+socket.send(bytesconvert)
+Data = []
+recepted = socket.recv(2048)
+recepted_string = pickle.loads(recepted)
+print(recepted_string)
