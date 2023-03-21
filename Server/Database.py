@@ -20,4 +20,4 @@ class Database:
             self.__cursor.execute(sql, [salon_id])
             return self.__cursor.fetchall()
 
-    
+
