@@ -68,11 +68,20 @@ import threading
 from Session import Session
 from _thread import *
 import time
+import pickle
 time_started = time.time()
 X=1
 def instance_create(c):
+    #(258).to_bytes(2, 'big')
+    #int.from_bytes(b'\x00\x10', byteorder='big')
 
     instance_object = Session(c)
+    #id_session=(instance_object.print_id()).to_bytes(2, 'big')
+    #print("ID SESSION RETOURNER PAR L'OBJET")
+    #print(id_session)
+    #c.send(id_session)
+
+    instance_object.Main_Session()
     while True:
         instance_object.print_id()
         if time.time() > time_started + X:
@@ -84,7 +93,7 @@ def main():
 
     # Reverse a port on the computer
     # In the case it is 2002 but it can be anything
-    port = 2002
+    port = 15555
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((host, port))
     print("socket bond to port", port)
@@ -103,7 +112,7 @@ def main():
         print('Connected to :', addr[0], ':', addr[1])
 
         # Start the new thread and return its identifier
-        a=threading.Thread(target=instance_create, args=(c),).start()
+        threading.Thread(target=instance_create, args=(c,),).start()
     server.close()
 
 
