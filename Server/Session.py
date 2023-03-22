@@ -21,12 +21,8 @@ class Session:
         # Toutes les requêtes lorsque l'utilisateur est authentifié
         # doivent normalement commencer par l'id de connexion
         # afin d'éviter l'envoie de requêtes indésirables
-        id = self.__session_objet.recv(48)
-        print("ID RECU EN BYTES")
-        print(id)
+        id = self.__session_objet.recv(512)
         id=int.from_bytes(id,byteorder='big')
-        print("ID DE SESSION CONVERTI")
-        print(id)
         if id == self.__id:
             return 1
         else:
@@ -48,8 +44,6 @@ class Session:
                         #self.__VocalChat()
                     case _:
                         print("Aucune commande n'a été envoyer")
-            else:
-                break
 
     def __GetMessage(self):
         import pickle
