@@ -38,6 +38,9 @@ def get_salon_messages(session_id,salon_id):
 
     receved_string = pickle.loads(Data)
     print(list(receved_string))
+#def get_user_id
+
+#def send_message(session_id,message,salon_id):
 
 def disconnect(session_id):
     if session_id is not None:

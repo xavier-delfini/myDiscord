@@ -16,6 +16,20 @@ def get_session_id():
     print(session_id)
     return session_id
 
+#def get_user_id
+
+def send_message(session_id,user_id,message,salon_id):
+    authentification_with_server(session_id)
+    socket.send(bytes("SendMessage", "utf-8"))
+    time.sleep(1)
+    socket.send(bytes(message,"utf-8"))
+    time.sleep(1)
+    socket.send((user_id).to_bytes(2, 'big'))
+    time.sleep(1)
+    socket.send((salon_id).to_bytes(2, 'big'))
+    time.sleep(1)
+    get_salon_messages(session_id, salon_id)
+
 def authentification_with_server(session_id):
     #Envoie de l'id de session afin de pouvoir executer la commande
     socket.send(session_id)
@@ -43,5 +57,5 @@ def get_salon_messages(session_id,salon_id):
 
 id=get_session_id()
 get_salon_messages(id,1)
-
+send_message(id,1,"Salut",1)
 #socket.close()

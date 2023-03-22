@@ -8,7 +8,7 @@ class Database:
     def add_message_to_database(self, message, user_id, salon):#1 utilisateur 2 classe session 3 utilisateur
         if user_id != "" and message != "" and salon != "":
             command = "INSERT INTO discord.messages(message,sender_id,salon_id) VALUES(%s,%s,%s)"
-            values = (message, user_id)
+            values = (message, user_id,salon)
             self.__cursor.execute(command, values)
             dbconnect.db.commit()
         else:

@@ -9,7 +9,7 @@ class Session:
         self.__id = threading.get_ident()
         self.__session_objet = objet
         # self.__user_id=#Identifiant de l'utilisateur dans la base de donnée (différent de celui de session)
-        self.__session_objet.send((self.__id).to_bytes(2,'big'))  # Envoie de l'identifiant de connexion(ID du thread)
+        self.__session_objet.send((self.__id).to_bytes(2, 'big'))  # Envoie de l'identifiant de connexion(ID du thread)
         self.__db = db.Database()
 
     def print_id(self):
@@ -22,7 +22,7 @@ class Session:
         # doivent normalement commencer par l'id de connexion
         # afin d'éviter l'envoie de requêtes indésirables
         id = self.__session_objet.recv(512)
-        id=int.from_bytes(id,byteorder='big')
+        id = int.from_bytes(id, byteorder='big')
         if id == self.__id:
             return 1
         else:
@@ -36,28 +36,36 @@ class Session:
                 match commande:
                     case "b'GetMessage'":
                         self.__GetMessage()
-                    #case "SentMessage":
-                        #self.__SentMessage()
+                    case "b'SendMessage'":
+                        self.__SendMessage()
                     case "b'Disconnect'":
                         self.__Disconnect()
-                    #case "VocalChat":
-                        #self.__VocalChat()
+                    # case "VocalChat":
+                    # self.__VocalChat()
                     case _:
                         print("Aucune commande n'a été envoyer")
 
     def __GetMessage(self):
         import pickle
         print("Récupération id")
-        id = self.__session_objet.recv(1001)# Récupération de l'id du salon
+        id = self.__session_objet.recv(1001)  # Récupération de l'id du salon
         print(id)
         print("compressions des données réçu")
-        bytes_array = pickle.dumps(self.__db.get_messages(int.from_bytes(id,byteorder='big')))
+        bytes_array = pickle.dumps(self.__db.get_messages(int.from_bytes(id, byteorder='big')))
         print(bytes_array)
         self.__session_objet.send(bytes_array)
-        
-    #def __VocalChat(self):
+
+    # def __VocalChat(self):
     # def __SentMessage(self):
 
     def __Disconnect(self):
         sys.exit()
 
+    def __SendMessage(self):
+        message=str(self.__session_objet.recv(1001).decode())
+        sender_id=int.from_bytes(self.__session_objet.recv(1001),byteorder='big')
+        print(message)
+        print(sender_id)
+        salon_id =int.from_bytes(self.__session_objet.recv(1001),byteorder='big')
+        print(salon_id)
+        self.__db.add_message_to_database(message, sender_id, salon_id)
