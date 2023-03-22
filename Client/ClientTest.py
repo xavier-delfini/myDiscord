@@ -55,7 +55,4 @@ def get_salon_messages(session_id,salon_id):
 
 
 
-id=get_session_id()
-get_salon_messages(id,1)
-send_message(id,1,"Salut",1)
-#socket.close()
+
