@@ -11,11 +11,11 @@ class Timeout:
 
             #case 1:
 
-    def __new_last_response(self):
+    def new_last_response(self):
         self.__last_response = time.time()
-    def __timeout_connexion(self):
+    def timeout_connexion(self):
         if (time.time()-self.__last_response) > self.__wait_connexion:
             return 1
-    def __timeout_request(self):
+    def timeout_request(self):
         if (time.time() -self.__last_response) > self.__wait_time_receving:
             return 1

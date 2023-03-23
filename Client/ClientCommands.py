@@ -28,7 +28,7 @@ class ClientCommands:
     def verif_email(self, mail):
         self.__socket.send(bytes("VerifMail", "utf-8"))
 
-        bytes(mail)
+        bytes(mail,"utf-8")
 
     def get_salon_messages(self, session_id, salon_id):
         self.authentification_with_server(session_id)
@@ -69,7 +69,12 @@ class ClientCommands:
             self.authentification_with_server(session_id)
             self.__socket.send(bytes("Disconnect", "utf-8"))
             time.sleep(1)
+    def user_connexion(self,mail,password):
+        #TODO:Password à hashé
 
+
+
+    def
 
 a = ClientCommands()
 id = a.get_session_id()

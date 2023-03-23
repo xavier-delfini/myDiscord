@@ -6,6 +6,7 @@ def instance_create(c):
 
     instance_object = Session(c)
     instance_object.Main_Session()
+    del instance_object
     concurrent.futures.Future.done()
 def main():
     host = ""

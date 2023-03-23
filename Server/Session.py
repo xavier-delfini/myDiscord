@@ -19,7 +19,7 @@ class Session:
 
     def __identification(self):
         # Toutes les requêtes lorsque l'utilisateur est authentifié
-        # doivent normalement commencer par l'id de connexion
+        # doivent normalement commencer par l'id de connexion(ID du thread dont la connexion est lié)
         # afin d'éviter l'envoie de requêtes indésirables
         id = self.__session_objet.recv(512)
         id = int.from_bytes(id, byteorder='big')
