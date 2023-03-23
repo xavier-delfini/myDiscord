@@ -3,7 +3,7 @@ from _thread import *
 import sys
 import Database as db
 
-
+#TODO:Method recup id salon, chercher un salon privée par mot de passe,créer un salon
 class Session:
     def __init__(self, objet):
         self.__id = threading.get_ident()

@@ -1,6 +1,6 @@
 from tkinter import *
 
-
+#TODO:Fichier a supprimer/utiliser pour la connexion
 class WindowConnexion:
     def __init__(self, master):
         self.master = master

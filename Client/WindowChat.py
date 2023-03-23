@@ -12,7 +12,7 @@ class WindowChat(Database):
         master.resizable(False, False)
         master.configure(background="#4f4d4d")
         self.curseur = self.db().cursor()
-
+        #TODO:Passer par le serveur
         self.curseur.execute("SELECT nom FROM salon")
         self.result = self.curseur.fetchall()
         self.result = [nom[0].replace("{", "") for nom in self.result]

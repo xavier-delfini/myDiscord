@@ -1,6 +1,6 @@
 import connexion as dbconnect
 
-
+#TODO:Method recup id salon, chercher un salon privée par mot de passe,créer un salon
 class Database:
     def __init__(self):
         self.__cursor = dbconnect.db.cursor()

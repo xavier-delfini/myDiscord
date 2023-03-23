@@ -1,6 +1,6 @@
 import mysql.connector
 
-
+#TODO:Supprimer ce fichier une fois fini
 class Database:
     def __init__(self):
         self.__user = 'root'

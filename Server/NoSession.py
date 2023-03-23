@@ -4,7 +4,7 @@ import time
 import pickle
 from parameters import constant as c
 class NoSession:
-
+    #TODO:A finir
     def __init__(self,objet):
         self.__last_response = time.time()
         self.__client_objet=objet

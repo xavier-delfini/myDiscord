@@ -41,7 +41,7 @@ class Login:
             messagebox.showerror("Erreur", "Veillez saisir l'Email et le mot de passe", parent=self.root)
         else:
             try:
-                con = mysql.connector.connect(host="localhost", user="root", password="Wolololo1", database="discord")
+                con = mysql.connector.connect(host="localhost", user="root", password="test", database="discord")
                 cur = con.cursor()  # Ajout de cette ligne
                 cur.execute("SELECT * FROM utilisateurs WHERE email=%s AND motdepasse=%s",(self.txt_email.get(), self.txt_password.get()))
                 row = cur.fetchone()

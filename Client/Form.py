@@ -63,6 +63,7 @@ class Form:
             if row is not None:
                 messagebox.showerror("Erreur", "Ce mail existe déjà", parent=self.root)
             else:
+                #TODO:Passer par le serveur
                 request="INSERT INTO utilisateurs (prenom, nom, email, motdepasse) VALUES (%s, %s, %s, %s)"
                 values=(self.ecri_prenom.get(),self.ecri_nom.get(),self.ecri_email.get(),self.ecri_mdp.get())
                 cur.execute(request,values)
