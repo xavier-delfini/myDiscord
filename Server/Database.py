@@ -29,3 +29,9 @@ class Database:
     #Inscription
     #Connexion
 
+    def verif_mail(self,mail):
+        sql="SELECT * FROM utilisateurs WHERE email = %s"
+        self.__cursor.execute(sql,mail)
+        return self.__cursor.fetchall()
+
+

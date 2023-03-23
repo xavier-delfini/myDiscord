@@ -1,51 +1,29 @@
+import concurrent.futures
 import socket
-from _thread import *
-import threading
+from Session import Session
 
-host = ""
-print_lock = threading.Lock()
-def threaded(client):
-    while True:
+def instance_create(c):
 
-        # Data is received from the client
-        data = client.recv(1001)
-        if not data:
-            print('No connection, Bye')
+    instance_object = Session(c)
+    instance_object.Main_Session()
+    concurrent.futures.Future.done()
+def main():
+    host = ""
+    port = 15555
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind((host, port))
+    print("Le serveur à démarrer sur le port", port, "et attend des clients")
+    server.listen(5)
+    print("socket is listening")
 
-            # Releasing lock on exit
-            print_lock.release()
-            break
+    #Création d'une instance de la fonction instance_create, il permet la connexion de plusieurs hotes en simultanée
 
-        # Reverse the given string from the client
-        data = data[::-1]
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        while True:
+            c, addr = server.accept()#Attente d'une connexion
+            print('Connexion de :', addr[0], ':', addr[1])
+            executor.submit(instance_create, c)#Création d'une instance utilisant la fonction instance_create
+            #Et qui passe en argument l'objet de connexion
 
-        # Send back reversed string to the client
-        client.send(data)
-
-    # Connection closed
-    client.close()
-# Reverse a port on the computer
-# In the case it is 2002 but it can be anything
-port = 2002
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((host, port))
-print("socket bond to port", port)
-
-# Put the socket into listening mode
-server.listen(5)
-print("socket is listening")
-
-# An infinite loop until the client exits
-while True:
-        # Establish connection with client
-        c, addr = server.accept()
-
-        # Lock acquired by client
-        print_lock.acquire()
-        print('Connected to :', addr[0], ':', addr[1])
-
-        # Start the new thread and return its identifier
-        start_new_thread(threaded, (c,))
-server.close()
-
-
+    server.close()
+main()

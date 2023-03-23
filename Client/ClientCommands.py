@@ -19,7 +19,11 @@ class ClientCommands:
         #Envoie de l'id de session a chaque commande afin d'authentifier la requête
         self.__socket.send(session_id)
         time.sleep(1)
+    def verif_email(self,mail):
 
+        self.__socket.send(bytes("VerifMail", "utf-8"))
+
+        bytes(mail)
     def get_salon_messages(self,session_id,salon_id):
         self.authentification_with_server(session_id)
         #Envoie de la commande GetMessage

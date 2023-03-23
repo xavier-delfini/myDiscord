@@ -57,23 +57,17 @@ class Form:
         elif self.ecri_mdp.get() !=self.ecri_confmdp.get():
             messagebox.showerror("Erreur","Euuuuh je crois tu t'es trompé mec surement 123 et 132 ça arrive de confondre les deux quand ton qi est negatif", parent=self.root)
         else:
-            try:
-                con = mysql.connector.connect(host="localhost", user="root", password="Wolololo1", database="discord")
-                cur = con.cursor()
-                cur.execute("SELECT * FROM utilisateurs WHERE email = %s", (self.ecri_email.get(),))
-                row = cur.fetchone()
-                if row is not None:
-                    messagebox.showerror("Erreur", "Ce mail existe déjà", parent=self.root)
-                else:
-                    request="INSERT INTO utilisateurs (prenom, nom, email, motdepasse) VALUES (%s, %s, %s, %s)"
-                    values=(self.ecri_prenom.get(),self.ecri_nom.get(),self.ecri_email.get(),self.ecri_mdp.get())
-                    cur.execute(request,values)
-                    messagebox.showinfo("Success", "Votre compte a été crée", parent=self.root)
-                con.commit()
-                con.close()
+            from ClientCommands import ClientCommands
+            Command=ClientCommands()
+            Command.verif_email(self.ecri_email.get())
+            if row is not None:
+                messagebox.showerror("Erreur", "Ce mail existe déjà", parent=self.root)
+            else:
+                request="INSERT INTO utilisateurs (prenom, nom, email, motdepasse) VALUES (%s, %s, %s, %s)"
+                values=(self.ecri_prenom.get(),self.ecri_nom.get(),self.ecri_email.get(),self.ecri_mdp.get())
+                cur.execute(request,values)
+                messagebox.showinfo("Success", "Votre compte a été crée", parent=self.root)
 
-            except Exception as es:
-                messagebox.showerror("Erreur", f"Erreur de connexion {str(es)}", parent=self.root)
 
 
     def create_login_window(self):
