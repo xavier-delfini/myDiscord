@@ -26,9 +26,10 @@ class ClientCommands:
         time.sleep(1)
 
     def verif_email(self, mail):
+        print("vérif_mail")
         self.__socket.send(bytes("VerifMail", "utf-8"))
-
-        bytes(mail,"utf-8")
+        time.sleep(0.5)
+        self.__socket.send(bytes(mail,"utf-8"))
 
     def get_salon_messages(self, session_id, salon_id):
         self.authentification_with_server(session_id)
@@ -71,14 +72,24 @@ class ClientCommands:
             time.sleep(1)
     def user_connexion(self,mail,password):
         #TODO:Password à hashé
+        print("Envoie requete")
+        self.__socket.send(bytes("connexion","utf-8"))
+        time.sleep(1)
+        print("Envoie infos")
+        self.__socket.send(pickle.dumps((mail,password)))
+        print("Attente reception infos")
+        connexion_response = self.__socket.recv(512)
+        print("Données recu :",connexion_response)
+        if connexion_response ==b'Sucessed':
+            return 1
+        else:
+            return 0
 
 
 
-    def
-
-a = ClientCommands()
-id = a.get_session_id()
-a.get_salon_messages(id, 1)
-a.send_message(id, 1, "Test_Objet", 1)
-a.disconnect(id)
+#a = ClientCommands()
+#id = a.get_session_id()
+#a.get_salon_messages(id, 1)
+#a.send_message(id, 1, "Test_Objet", 1)
+#a.disconnect(id)
 # socket.close()

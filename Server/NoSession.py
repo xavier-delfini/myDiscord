@@ -18,7 +18,8 @@ class NoSession(Timeout):
             command = self.__client_objet.recv(512)
             pickle.loads(command)
             self.new_last_response()
-            match command[0]:
+            print(command)
+            match command:
                 case b'connexion':
                     mail_pass = self.__client_objet.recv(512)
                     mail_pass_list = pickle.loads(mail_pass)
@@ -33,16 +34,19 @@ class NoSession(Timeout):
                         self.__client_objet.send(bytes("Failed","utf-8"))
         return 1
 
-    def __create_user(self, prenom, nom, mail, password):
+    #def __create_user(self, prenom, nom, mail, password):
 
 
     def __connexion(self, mail, password):
         # TODO:récupération mail password, envoie id d'utilisateur,démarrage session
         if self.__db.user_connexion(mail, password) == 1:
+            print("Vérif ok")
+            print("Envoie infos")
             self.__client_objet.send(bytes("Sucessed","utf-8"))
+
             from Session import Session
             self.__db.get_user_id(mail)
-            connected = Session(self.__client_objet)
+            connected = Session(self.__client_objet,self.__db.get_user_id(mail))
             connected.Main_Session()
         else:
             self.__client_objet.send(bytes("Failed","utf-8"))

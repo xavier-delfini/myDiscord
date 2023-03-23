@@ -5,17 +5,18 @@ import Database as db
 
 #TODO:Method recup id salon, chercher un salon privée par mot de passe,créer un salon
 class Session:
-    def __init__(self, objet):
-        self.__id = threading.get_ident()
+    def __init__(self, objet,user_id):
+        self.__session_id = threading.get_ident()
+        self.__user_id=user_id
         self.__session_objet = objet
         # self.__user_id=#Identifiant de l'utilisateur dans la base de donnée (différent de celui de session)
-        self.__session_objet.send((self.__id).to_bytes(2, 'big'))  # Envoie de l'identifiant de connexion(ID du thread)
+        self.__session_objet.send((self.__session_id).to_bytes(2, 'big'))  # Envoie de l'identifiant de connexion(ID du thread)
         self.__db = db.Database()
 
     def print_id(self):
         print("id stocké en objet")
-        print(self.__id)
-        return self.__id
+        print(self.__session_id)
+        return self.__session_id
 
     def __identification(self):
         # Toutes les requêtes lorsque l'utilisateur est authentifié
@@ -23,7 +24,7 @@ class Session:
         # afin d'éviter l'envoie de requêtes indésirables
         id = self.__session_objet.recv(512)
         id = int.from_bytes(id, byteorder='big')
-        if id == self.__id:
+        if id == self.__session_id:
             return 1
         else:
             return 0
@@ -49,7 +50,6 @@ class Session:
         import pickle
         print("Récupération id")
         id = self.__session_objet.recv(1001)  # Récupération de l'id du salon
-        print(id)
         print("compressions des données réçu")
         bytes_array = pickle.dumps(self.__db.get_messages(int.from_bytes(id, byteorder='big')))
         print(bytes_array)
@@ -68,4 +68,4 @@ class Session:
         print(sender_id)
         salon_id =int.from_bytes(self.__session_objet.recv(1001),byteorder='big')
         print(salon_id)
-        self.__db.add_message_to_database(message, sender_id, salon_id)
+        self.__db.add_message_to_database(message, self.__user_id, salon_id)

@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
-import mysql.connector
+from ClientCommands import ClientCommands as command
 
 class Login:
     def __init__(self):
@@ -40,25 +40,23 @@ class Login:
         if self.txt_email.get() == "" or self.txt_password.get() == "":
             messagebox.showerror("Erreur", "Veillez saisir l'Email et le mot de passe", parent=self.root)
         else:
-            try:
-                con = mysql.connector.connect(host="localhost", user="root", password="test", database="discord")
-                cur = con.cursor()  # Ajout de cette ligne
-                cur.execute("SELECT * FROM utilisateurs WHERE email=%s AND motdepasse=%s",(self.txt_email.get(), self.txt_password.get()))
-                row = cur.fetchone()
-                if row == None:
-                    messagebox.showwarning("Erreur", "Invalide email ou password",parent=self.root)
-                else:
-                    messagebox.showinfo("Réussite", "vous allez être redirigé")
-                    #TODO:Lié Connexion to Session
-                    con.close()
-
-            except Exception as ex:
-                messagebox.showerror("Erreur", f"Erreur de connexione{str(ex)}", parent=self.root)
+            connexion = command()
+            server_response=connexion.user_connexion(self.txt_email.get(), self.txt_password.get())
+            if server_response==0:
+                messagebox.showwarning("Erreur", "Identifiant ou mot de passe incorrect.",parent=self.root)
+            elif server_response==1:
+                messagebox.showinfo("Réussite", "vous allez être redirigé")
+                self.create_chat_window()
+                #TODO:Lié Connexion to Session
 
     def create_form_window(self):
         self.root.destroy()
-        from Client.Form import Form
+        from Form import Form
         obj = Form()
 
+    def create_chat_window(self):
+        self.root.destroy()
+        from WindowChat import WindowChat
+        obj = WindowChat()
 
 

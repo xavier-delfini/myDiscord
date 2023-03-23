@@ -1,11 +1,12 @@
 import concurrent.futures
 import socket
-from Session import Session
+from NoSession import NoSession
 
 def instance_create(c):
 
-    instance_object = Session(c)
-    instance_object.Main_Session()
+    instance_object = NoSession(c)
+    print("Lancement no session")
+    instance_object.Main()
     del instance_object
     concurrent.futures.Future.done()
 def main():
@@ -25,6 +26,5 @@ def main():
             print('Connexion de :', addr[0], ':', addr[1])
             executor.submit(instance_create, c)#Création d'une instance utilisant la fonction instance_create
             #Et qui passe en argument l'objet de connexion
-
     server.close()
 main()

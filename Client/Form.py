@@ -61,6 +61,7 @@ class Form:
                                  "Euuuuh je crois tu t'es trompé mec surement 123 et 132 ça arrive de confondre les deux quand ton qi est negatif",
                                  parent=self.root)
         else:
+            print("début CREATE_new_USER")
             Command = ClientCommands()
             if Command.verif_email(self.ecri_email.get()) != 0:
                 messagebox.showerror("Erreur", "Ce mail existe déjà", parent=self.root)
