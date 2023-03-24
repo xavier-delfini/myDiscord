@@ -34,13 +34,15 @@ class Database:
     #------Création de comptes-------
     def verif_mail(self,mail):
         sql="SELECT * FROM utilisateurs WHERE email = %s"
-        self.__cursor.execute(sql,(mail))
+        self.__cursor.execute(sql, [mail])
         if self.__cursor.fetchall():
             return 1
         else:
             return 2
     def user_creation(self,prenom,nom,mail,password):
+        print("insert")
         command="INSERT INTO utilisateurs (prenom, nom, email, motdepasse) VALUES (%s, %s, %s, %s)"
+        print("values:",prenom,nom,mail,password)
         values=(prenom,nom,mail,password)
         self.__cursor.execute(command,values)
         dbconnect.db.commit()
@@ -60,6 +62,3 @@ class Database:
             return 1
         else:
             return 2
-
-#test=Database()
-#print(test.user_connexion("Test@test.fr","test"))

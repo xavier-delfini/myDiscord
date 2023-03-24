@@ -63,15 +63,10 @@ class Form:
         else:
             print("début CREATE_new_USER")
             Command = ClientCommands()
-            if Command.verif_email(self.ecri_email.get()) != 0:
-                messagebox.showerror("Erreur", "Ce mail existe déjà", parent=self.root)
-            else:
-                # TODO:Passer par le serveur
-                request = "INSERT INTO utilisateurs (prenom, nom, email, motdepasse) VALUES (%s, %s, %s, %s)"
-                values = (self.ecri_prenom.get(), self.ecri_nom.get(), self.ecri_email.get(), self.ecri_mdp.get())
-                cur.execute(request, values)
+            if Command.user_creation(self.ecri_prenom.get(), self.ecri_nom.get(), self.ecri_email.get(), self.ecri_mdp.get()) ==0 :
                 messagebox.showinfo("Success", "Votre compte a été crée", parent=self.root)
-
+            else:
+                messagebox.showerror("Erreur", "Ce mail existe déjà", parent=self.root)
     def create_login_window(self):
         self.root.destroy()
         from Login import Login

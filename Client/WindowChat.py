@@ -4,9 +4,9 @@ import mysql.connector
 
 
 class WindowChat(Database):
-    def __init__(self, master):
+    def __init__(self):
         super().__init__()
-        self.master = master
+        master = Tk()
         master.title("MyDiscord")
         master.geometry("800x600")
         master.resizable(False, False)
@@ -28,8 +28,7 @@ class WindowChat(Database):
 
         self.btn_inscription = Button(master, text="Send", width=7, height=1, bg='#6451ef', fg='#FFFFFF', font=('arial', 15, 'bold'))
         self.btn_inscription.place(x=650, y=550)
+        master.mainloop()
 
+#gui = WindowChat()
 
-root = Tk()
-gui = WindowChat(root)
-root.mainloop()

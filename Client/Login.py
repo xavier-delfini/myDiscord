@@ -10,7 +10,7 @@ class Login:
         self.root.config(bg="#f5f5f5")
 
         login_frame = Frame(self.root, bg="#FFFFFF", bd=0, highlightthickness=0)
-        login_frame.pack(expand=True, padx=200, pady=100)
+        login_frame.pack(expand=True, padx=10, pady=5)
 
         title = Label(login_frame, text="Connexion", font=("Arial",40), bg="#FFFFFF", fg="#333333")
         title.grid(column=0, row=0, columnspan=2, pady=20)
