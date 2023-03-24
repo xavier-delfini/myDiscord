@@ -6,27 +6,25 @@ from Timeout import Timeout
 from parameters import constant as c
 
 
-class NoSession(Timeout):
+class NoSession():
     # TODO:A finir
-    def __init__(self, objet):
-        super().__init__(self)
+    def __init__(self, objet,):
+        #Timeout.__init__(self,is_session)
         self.__client_objet = objet
         self.__db = db.Database()
 
     def Main(self):
-        while True or self.timeout_connexion != 1:
+        while True:
             command = self.__client_objet.recv(512)
-            pickle.loads(command)
-            self.new_last_response()
             print(command)
             match command:
                 case b'connexion':
-                    mail_pass = self.__client_objet.recv(512)
+                    mail_pass = self.__client_objet.recv(4096)
                     mail_pass_list = pickle.loads(mail_pass)
                     self.__connexion(mail_pass_list[0], mail_pass_list[1])
                 case b'user_create':
                     user = self.__client_objet.recv(512)
-                    mail_pass_list = pickle.loads(user)
+                    user = pickle.loads(user)
                     if self.__db.verif_mail(user[2]):
                         self.__create_user(user[0], user[1],user[2],user[3])
                         self.__client_objet.send(bytes("Account Created","utf-8"))
@@ -50,4 +48,5 @@ class NoSession(Timeout):
             connected.Main_Session()
         else:
             self.__client_objet.send(bytes("Failed","utf-8"))
+            return 1
 

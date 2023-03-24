@@ -1,4 +1,5 @@
 import threading
+import time
 from _thread import *
 import sys
 import Database as db
@@ -33,7 +34,7 @@ class Session:
         while True:
             if self.__identification() == 1:
                 commande = str(self.__session_objet.recv(1024))
-                print(commande)
+                time.sleep(0.1)
                 match commande:
                     case "b'GetMessage'":
                         self.__GetMessage()
