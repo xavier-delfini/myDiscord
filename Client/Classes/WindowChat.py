@@ -1,17 +1,13 @@
 from tkinter import *
-from Database import Database
-import mysql.connector
 
 
-class WindowChat(Database):
+class WindowChat():
     def __init__(self):
-        super().__init__()
         master = Tk()
         master.title("MyDiscord")
         master.geometry("800x600")
         master.resizable(False, False)
         master.configure(background="#4f4d4d")
-        self.curseur = self.db().cursor()
         #TODO:Passer par le serveur
         self.curseur.execute("SELECT nom FROM salon")
         self.result = self.curseur.fetchall()

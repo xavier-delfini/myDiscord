@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
-from ClientCommands import ClientCommands
+from Client.Classes.ClientCommands import ClientCommands
 
 class Form:
     def __init__(self):
@@ -63,11 +63,11 @@ class Form:
         else:
             print("début CREATE_new_USER")
             Command = ClientCommands()
-            if Command.user_creation(self.ecri_prenom.get(), self.ecri_nom.get(), self.ecri_email.get(), self.ecri_mdp.get()) ==0 :
+            if Command.user_creation(self.ecri_prenom.get(), self.ecri_nom.get(), self.ecri_email.get(), self.ecri_mdp.get()) == 1:
                 messagebox.showinfo("Success", "Votre compte a été crée", parent=self.root)
             else:
                 messagebox.showerror("Erreur", "Ce mail existe déjà", parent=self.root)
     def create_login_window(self):
         self.root.destroy()
-        from Login import Login
+        from Client.Classes.Login import Login
         obj = Login()

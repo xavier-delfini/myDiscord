@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
-from ClientCommands import ClientCommands as command
-
+from Client.Classes.ClientCommands import ClientCommands as clientcommands
 class Login:
     def __init__(self):
         self.root = Tk()
@@ -40,7 +39,7 @@ class Login:
         if self.txt_email.get() == "" or self.txt_password.get() == "":
             messagebox.showerror("Erreur", "Veillez saisir l'Email et le mot de passe", parent=self.root)
         else:
-            connexion = command()
+            connexion = clientcommands()
             server_response=connexion.user_connexion(self.txt_email.get(), self.txt_password.get())
             if server_response==0:
                 messagebox.showwarning("Erreur", "Identifiant ou mot de passe incorrect.",parent=self.root)
@@ -51,12 +50,12 @@ class Login:
 
     def create_form_window(self):
         self.root.destroy()
-        from Form import Form
+        from Client.Classes.Form import Form
         obj = Form()
 
     def create_chat_window(self):
         self.root.destroy()
-        from WindowChat import WindowChat
+        from Client.Classes.WindowChat import WindowChat
         obj = WindowChat()
 
 

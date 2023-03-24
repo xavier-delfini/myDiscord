@@ -1,4 +1,5 @@
-import connexion as dbconnect
+from Server.parameters import SQL_Connexion as dbconnect
+
 
 #TODO:Method recup id salon, chercher un salon privée par mot de passe,créer un salon
 class Database:
@@ -33,12 +34,13 @@ class Database:
 
     #------Création de comptes-------
     def verif_mail(self,mail):
+        print(mail)
         sql="SELECT * FROM utilisateurs WHERE email = %s"
         self.__cursor.execute(sql, [mail])
         if self.__cursor.fetchall():
-            return 1
-        else:
             return 2
+        else:
+            return 1
     def user_creation(self,prenom,nom,mail,password):
         print("insert")
         command="INSERT INTO utilisateurs (prenom, nom, email, motdepasse) VALUES (%s, %s, %s, %s)"

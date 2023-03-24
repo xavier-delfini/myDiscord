@@ -3,8 +3,7 @@
 import socket
 import pickle
 import time
-from parameters import \
-    constant as c  # Importation des constantes SERVER_IP et SERVER_PORT(déclarer comme constantes puisque ces valeurs ne sont pas censer changer en cours d'execution dans notre cas
+from Client.parameters import constant as c  # Importation des constantes SERVER_IP et SERVER_PORT(déclarer comme constantes puisque ces valeurs ne sont pas censer changer en cours d'execution dans notre cas
 
 
 # TODO:Method recup id salon, chercher un salon privée par mot de passe,créer un salon
@@ -87,14 +86,16 @@ class ClientCommands:
     def user_creation(self, prenom, nom, mail, password):
         print(password)
         user_infos = pickle.dumps((prenom, nom, mail, password))
-        self.__socket.send(bytes("user_create","utf-8"))
+        self.__socket.send(bytes("user_create", "utf-8"))
         time.sleep(1)
         self.__socket.send(user_infos)
-        self.__socket.recv(512)
-        if "b'Account Created'":
+        result = self.__socket.recv(512)
+
+        print(result)
+        if result == b'Account Created':
             return 1
-        elif "b'Failed'":
-            return 0
+        elif result == b'Failed':
+            return 2
 
 # a = ClientCommands()
 # id = a.get_session_id()

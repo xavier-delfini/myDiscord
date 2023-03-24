@@ -1,8 +1,8 @@
 import threading
 import time
-from _thread import *
 import sys
-import Database as db
+from Server.Classes import Database as db
+
 
 #TODO:Method recup id salon, chercher un salon privée par mot de passe,créer un salon
 class Session:
