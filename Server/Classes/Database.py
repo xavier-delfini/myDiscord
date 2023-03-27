@@ -64,3 +64,7 @@ class Database:
             return 1
         else:
             return 2
+
+
+#test=Database()
+#print(test.get_user_id(["a"]))

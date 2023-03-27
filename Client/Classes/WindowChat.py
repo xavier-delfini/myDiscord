@@ -1,7 +1,7 @@
 from tkinter import *
 
 
-class WindowChat():
+class WindowChat:
     def __init__(self):
         master = Tk()
         master.title("MyDiscord")
@@ -9,8 +9,8 @@ class WindowChat():
         master.resizable(False, False)
         master.configure(background="#4f4d4d")
         #TODO:Passer par le serveur
-        self.curseur.execute("SELECT nom FROM salon")
-        self.result = self.curseur.fetchall()
+        #TODO:Recup list salons publiques
+        self.result="résultat commande"
         self.result = [nom[0].replace("{", "") for nom in self.result]
 
         self.selected1 = StringVar()
@@ -25,6 +25,9 @@ class WindowChat():
         self.btn_inscription = Button(master, text="Send", width=7, height=1, bg='#6451ef', fg='#FFFFFF', font=('arial', 15, 'bold'))
         self.btn_inscription.place(x=650, y=550)
         master.mainloop()
+
+    #def disconnect(self):
+
 
 #gui = WindowChat()
 

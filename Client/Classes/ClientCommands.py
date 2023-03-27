@@ -9,15 +9,15 @@ from Client.parameters import constant as c  # Importation des constantes SERVER
 # TODO:Method recup id salon, chercher un salon privée par mot de passe,créer un salon
 class ClientCommands:
     def __init__(self):
+        self.__session_id = 1
         self.__socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__socket.connect((c.SERVER_IP, c.SERVER_PORT))
         print("Connection on {}".format(c.SERVER_PORT))
 
     def get_session_id(self):
         print("Réception id")
-        session_id = self.__socket.recv(1024)
-        print(session_id)
-        return session_id
+        self.__session_id = int.from_bytes(self.__socket.recv(1024), byteorder='big')
+        print(self.__session_id)
 
     def authentification_with_server(self, session_id):
         # Envoi de l'id de session a chaque commande afin d'authentifier la requête
@@ -79,6 +79,7 @@ class ClientCommands:
         connexion_response = self.__socket.recv(512)
         print("Données recu :", connexion_response)
         if connexion_response == b'Sucessed':
+            self.get_session_id()
             return 1
         else:
             return 0
@@ -93,6 +94,7 @@ class ClientCommands:
 
         print(result)
         if result == b'Account Created':
+            self.get_session_id()
             return 1
         elif result == b'Failed':
             return 2

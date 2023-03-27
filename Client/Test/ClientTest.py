@@ -17,7 +17,9 @@ def get_session_id():
 
 #def get_user_id
 
+
 def send_message(session_id,user_id,message,salon_id):
+    # TODO:Simplifié le code (réduire le nombrde d'envois)
     authentification_with_server(session_id)
     socket.send(bytes("SendMessage", "utf-8"))
     time.sleep(1)

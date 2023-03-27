@@ -3,7 +3,7 @@ import pickle
 
 
 class NoSession:
-    def __init__(self, objet, ):
+    def __init__(self, objet):
         # Timeout.__init__(self,is_session)
         self.__client_objet = objet
         self.__db = db.Database()
@@ -43,8 +43,10 @@ class NoSession:
             self.__client_objet.send(bytes("Sucessed", "utf-8"))
 
             from Server.Classes.Session import Session
-            self.__db.get_user_id(mail)
-            connected = Session(self.__client_objet, self.__db.get_user_id(mail))
-            connected.Main_Session()
+            print("Récupération de l'id de session")
+            print(self.__db.get_user_id([mail]))
+            connected = Session(self.__client_objet, self.__db.get_user_id([mail]))
+            print("Lancement session depuis NoSession")
+            connected.main_Session()
         else:
             self.__client_objet.send(bytes("Failed", "utf-8"))

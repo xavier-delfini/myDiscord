@@ -1,5 +1,5 @@
 import time
-from parameters import constant as c
+from Server.parameters import constant as c
 class Timeout:
     def __init__(self,session):
         self.__wait_time_receving,self.__wait_connexion=self.__get_constants()
@@ -8,8 +8,8 @@ class Timeout:
         match self.__sessionOpen:
             case 0:
                 return c.NO_SESSION_TIMEOUT_WAIT_RECEVING, c.NO_SESSION_TIMEOUT_CONNEXION
-
-            #case 1:
+            case 1:
+                return c.SESSION_TIMEOUT_WAIT_RECEVING, c.SESSION_TIMEOUT_CONNEXION
 
     def new_last_response(self):
         self.__last_response = time.time()
