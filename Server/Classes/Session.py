@@ -1,11 +1,11 @@
 import threading
 import time
 import sys
+import pickle
 from Server.Classes import Database as db
-from Server.Classes.Timeout import Timeout
 
 
-#TODO:Method recup id salon, chercher un salon privée par mot de passe,créer un salon
+#TODO:chercher un salon privée par mot de passe,créer un salon
 class Session:
     def __init__(self, objet, user_id):
         print("Démmarage session ")
@@ -34,24 +34,27 @@ class Session:
             return 0
 
     def main_Session(self):
-        while True :
+        while True:
+            time.sleep(0.1)
             if self.__identification() == 1:
                 commande = str(self.__session_objet.recv(1024))
-                time.sleep(0.1)
                 match commande:
                     case "b'GetMessage'":
                         self.__GetMessage()
                     case "b'SendMessage'":
                         self.__SendMessage()
+                    case "b'GetSalonList'":
+                        self.__GetSalonList()
                     case "b'Disconnect'":
                         self.__Disconnect()
-                    # case "VocalChat":
+                    case "b'SearchPrivateSalon'":
+                        self.__SearchForPrivateSalon()
+                    # case b'VocalChat':
                     # self.__VocalChat()
                     case _:
                         print("Aucune commande n'a été envoyer")
 
     def __GetMessage(self):
-        import pickle
         print("Récupération id")
         id = self.__session_objet.recv(1001)  # Récupération de l'id du salon
         print("compressions des données réçu")
@@ -66,10 +69,26 @@ class Session:
         sys.exit()
 
     def __SendMessage(self):
-        message=str(self.__session_objet.recv(1001).decode())
-        sender_id=int.from_bytes(self.__session_objet.recv(1001),byteorder='big')
+        message = str(self.__session_objet.recv(1001).decode())
+        sender_id = int.from_bytes(self.__session_objet.recv(1001), byteorder='big')
         print(message)
         print(sender_id)
-        salon_id =int.from_bytes(self.__session_objet.recv(1001),byteorder='big')
+        salon_id = int.from_bytes(self.__session_objet.recv(1001), byteorder='big')
         print(salon_id)
         self.__db.add_message_to_database(message, self.__user_id, salon_id)
+
+    def __GetSalonList(self):
+        bytes_array = pickle.dumps(self.__db.get_salon_list())
+        print(bytes_array)
+        self.__session_objet.send(bytes_array)
+
+    def __SearchForPrivateSalon(self):
+        passcode=self.__session_objet.recv(1024)
+        print("reception du passcode")
+        passcode=passcode.decode()
+
+        result=self.__db.SearchForPrivateSalon([passcode])
+        print("recherche dans la base de donnée")
+        result=pickle.dumps(result)
+        self.__session_objet.send(result)
+        print("envoie du résultat")

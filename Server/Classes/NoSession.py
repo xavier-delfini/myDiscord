@@ -1,7 +1,6 @@
 from Server.Classes import Database as db
 import pickle
 
-
 class NoSession:
     def __init__(self, objet):
         # Timeout.__init__(self,is_session)

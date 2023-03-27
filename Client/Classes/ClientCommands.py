@@ -3,13 +3,14 @@
 import socket
 import pickle
 import time
-from Client.parameters import constant as c  # Importation des constantes SERVER_IP et SERVER_PORT(déclarer comme constantes puisque ces valeurs ne sont pas censer changer en cours d'execution dans notre cas
+from Client.parameters import \
+    constant as c  # Importation des constantes SERVER_IP et SERVER_PORT(déclarer comme constantes puisque ces valeurs ne sont pas censer changer en cours d'execution dans notre cas
 
 
 # TODO:Method recup id salon, chercher un salon privée par mot de passe,créer un salon
 class ClientCommands:
     def __init__(self):
-        self.__session_id = 1
+        self.__session_id = -1
         self.__socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__socket.connect((c.SERVER_IP, c.SERVER_PORT))
         print("Connection on {}".format(c.SERVER_PORT))
@@ -19,8 +20,9 @@ class ClientCommands:
         self.__session_id = int.from_bytes(self.__socket.recv(1024), byteorder='big')
         print(self.__session_id)
 
-    def authentification_with_server(self, session_id):
+    def authentification_with_server(self):
         # Envoi de l'id de session a chaque commande afin d'authentifier la requête
+        session_id =  self.__session_id.to_bytes(2, 'big')
         self.__socket.send(session_id)
         time.sleep(1)
 
@@ -30,18 +32,22 @@ class ClientCommands:
         time.sleep(0.5)
         self.__socket.send(bytes(mail, "utf-8"))
 
-    def get_salon_messages(self, session_id, salon_id):
-        self.authentification_with_server(session_id)
+    def get_salon_messages(self,salon_id):
+        self.authentification_with_server()
         # Envoi de la commande GetMessage
+        print("Envoie commande getmessage")
         self.__socket.send(bytes("GetMessage", "utf-8"))
         time.sleep(1)
 
         # Envoie identifiant salon
-        self.__socket.send((salon_id).to_bytes(2, 'big'))
+        print("Envoie id salon")
+        salon_id = salon_id.to_bytes(2, 'big')
+        print(salon_id)
+        self.__socket.send(salon_id)
         time.sleep(1)
 
         # Reception données messages
-        Data = self.__socket.recv(1500)
+        Data = self.__socket.recv(10024)
         print(Data)
         time.sleep(1)
 
@@ -51,7 +57,7 @@ class ClientCommands:
     # def get_user_id
 
     def send_message(self, session_id, user_id, message, salon_id):
-        self.authentification_with_server(session_id)
+        self.authentification_with_server()
         self.__socket.send(bytes("SendMessage", "utf-8"))
         time.sleep(1)
         self.__socket.send(bytes(message, "utf-8"))
@@ -64,7 +70,7 @@ class ClientCommands:
 
     def disconnect(self, session_id):
         if session_id is not None:
-            self.authentification_with_server(session_id)
+            self.authentification_with_server()
             self.__socket.send(bytes("Disconnect", "utf-8"))
             time.sleep(1)
 
@@ -99,6 +105,22 @@ class ClientCommands:
         elif result == b'Failed':
             return 2
 
+    def getSalonList(self):
+        self.authentification_with_server()
+        self.__socket.send(bytes("GetSalonList", "utf-8"))
+        received_data=self.__socket.recv(1024)
+        received_data=pickle.loads(received_data)
+        print(received_data)
+        return received_data
+    def SearchPrivateSalon(self,passcode):
+        self.authentification_with_server()
+        self.__socket.send(bytes("SearchPrivateSalon", "utf-8"))
+        time.sleep(1)
+        self.__socket.send(bytes(passcode,"utf-8"))
+        print("Reception résultat recherche salon")
+        salon=self.__socket.recv(1024)
+        salon=pickle.loads(salon)
+        return salon
 # a = ClientCommands()
 # id = a.get_session_id()
 # a.get_salon_messages(id, 1)
