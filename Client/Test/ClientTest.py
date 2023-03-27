@@ -3,10 +3,19 @@
 import socket
 import pickle
 import time
+from Client.Classes.ClientCommands import ClientCommands
 
+Test = ClientCommands()
+Test.user_connexion("a", "a")
+#print(Test.get_salon_messages(1))
+#Test.getSalonList()
+print(Test.SearchPrivateSalon("a"))
+#TODO:Test envoie messages
+#TODO:Test recup salon
+
+'''
 hote = "localhost"
 port = 15555
-# Test envoie de paquet limité a 64 caractères
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 socket.connect((hote, port))
 print("Connection on {}".format(port))
@@ -18,7 +27,9 @@ def get_session_id():
 
 #def get_user_id
 
+
 def send_message(session_id,user_id,message,salon_id):
+    # TODO:Simplifié le code (réduire le nombrde d'envois)
     authentification_with_server(session_id)
     socket.send(bytes("SendMessage", "utf-8"))
     time.sleep(1)
@@ -53,6 +64,4 @@ def get_salon_messages(session_id,salon_id):
     receved_string = pickle.loads(Data)
     print(list(receved_string))
 
-
-
-
+'''
