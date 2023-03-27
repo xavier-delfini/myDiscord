@@ -78,7 +78,7 @@ class Database:
         else:
             return 1
 
-    def CreateSalon(self, name, accessibility, passcode=None):
+    def CreateSalon(self, name, accessibility=0, passcode=None):
         if self.__verifySalonName(name) == 1:
             sql = "INSERT INTO discord.salon(nom,droit,passcode) VALUES(%s,%s,%s)"
             values = (name, accessibility, passcode)
@@ -99,5 +99,5 @@ class Database:
             return 1
 
 
-test = Database()
-print(test.CreateSalon("Salon6", 0))
+#test = Database()
+#print(test.CreateSalon("Salon6", 0))

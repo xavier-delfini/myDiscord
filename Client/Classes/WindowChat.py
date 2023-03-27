@@ -5,6 +5,7 @@ from Client.Classes.ClientCommands import ClientCommands
 class WindowChat:
     def __init__(self,connexion):
         self.connexion=connexion
+        self.command=ClientCommands()
         master = Tk()
         master.title("MyDiscord")
         master.geometry("800x600")
@@ -26,7 +27,6 @@ class WindowChat:
 
         self.btn_inscription = Button(master, text="Send", width=7, height=1, bg='#6451ef', fg='#FFFFFF', font=('arial', 15, 'bold'))
         self.btn_inscription.place(x=650, y=550)
-
         master.mainloop()
     def open_window(self):  # fonction pour ouvrir une fenètre secondaire
         window = Toplevel()
@@ -41,6 +41,6 @@ class WindowChat:
         entrytroi.pack()
         c1 = Checkbutton(window, text='Python', onvalue=1, offvalue=0)
         c1.pack()
-        Button(window, text="add", width=5, height=1, font=('arial', 30, 'bold'), ).place(x=25, y=100)
-
+        Button(window, text="add", width=5, height=1, font=('arial', 30, 'bold'),).place(x=25, y=100)
+#command=lambda:self.command.CreateSalon(entryun,entrydeu,entrytroi)
 

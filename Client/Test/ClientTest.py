@@ -9,7 +9,8 @@ Test = ClientCommands()
 Test.user_connexion("a", "a")
 #print(Test.get_salon_messages(1))
 Test.getSalonList()
-print(Test.SearchPrivateSalon("a"))
+print(Test.CreateSalon("Salon15"))
+#print(Test.SearchPrivateSalon("a"))
 #TODO:Test envoie messages
 #TODO:Test recup salon
 

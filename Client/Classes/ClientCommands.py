@@ -33,7 +33,7 @@ class ClientCommands:
         time.sleep(0.5)
         self.__socket.send(bytes(mail, "utf-8"))
 
-    def get_salon_messages(self,salon_id):
+    def get_salon_messages(self, salon_id):
         self.authentification_with_server()
         # Envoi de la commande GetMessage
         print("Envoie commande getmessage")
@@ -61,13 +61,9 @@ class ClientCommands:
         self.authentification_with_server()
         self.__socket.send(bytes("SendMessage", "utf-8"))
         time.sleep(1)
-        self.__socket.send(bytes(message, "utf-8"))
+        data = pickle.dumps([message, user_id, salon_id])
+        self.__socket.send(data)
         time.sleep(1)
-        self.__socket.send((user_id).to_bytes(2, 'big'))
-        time.sleep(1)
-        self.__socket.send((salon_id).to_bytes(2, 'big'))
-        time.sleep(1)
-        self.get_salon_messages(session_id, salon_id)
 
     def disconnect(self, session_id):
         if session_id is not None:
@@ -109,19 +105,33 @@ class ClientCommands:
     def getSalonList(self):
         self.authentification_with_server()
         self.__socket.send(bytes("GetSalonList", "utf-8"))
-        received_data=self.__socket.recv(1024)
-        received_data=pickle.loads(received_data)
+        received_data = self.__socket.recv(1024)
+        received_data = pickle.loads(received_data)
         print(received_data)
         return received_data
-    def SearchPrivateSalon(self,passcode):
+
+    def SearchPrivateSalon(self, passcode):
         self.authentification_with_server()
         self.__socket.send(bytes("SearchPrivateSalon", "utf-8"))
         time.sleep(1)
-        self.__socket.send(bytes(passcode,"utf-8"))
+        self.__socket.send(bytes(passcode, "utf-8"))
         print("Reception résultat recherche salon")
-        salon=self.__socket.recv(1024)
-        salon=pickle.loads(salon)
+        salon = self.__socket.recv(1024)
+        salon = pickle.loads(salon)
         return salon
+
+    def CreateSalon(self, name, accessibility=0, passcode=None):
+        self.authentification_with_server()
+        self.__socket.send(bytes("CreateSalon", "utf-8"))
+        time.sleep(1)
+        data = pickle.dumps([name, accessibility, passcode])
+        self.__socket.send(data)
+        result = self.__socket.recv(512)
+        if result == b'Ok':
+            return 1
+        else:
+            return 2
+
 # a = ClientCommands()
 # id = a.get_session_id()
 # a.get_salon_messages(id, 1)

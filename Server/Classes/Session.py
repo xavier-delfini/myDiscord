@@ -43,6 +43,8 @@ class Session:
                         self.__Disconnect()
                     case "b'SearchPrivateSalon'":
                         self.__SearchForPrivateSalon()
+                    case "b'CreateSalon'":
+                        self.__CreateSalon()
                     # case b'VocalChat':
                     # self.__VocalChat()
                     case _:
@@ -86,3 +88,11 @@ class Session:
         result=pickle.dumps(result)
         self.__session_objet.send(result)
         print("envoie du résultat")
+
+    def __CreateSalon(self):
+        salon = self.__session_objet.recv(1024)
+        salon=pickle.loads(salon)
+        if self.__db.CreateSalon(salon[0],salon[1],salon[2]) == 1:
+            self.__session_objet.send(bytes("Ok","utf-8"))
+        else:
+            self.__session_objet.send(bytes("Already exist","utf-8"))
