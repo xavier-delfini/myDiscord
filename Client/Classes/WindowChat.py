@@ -1,20 +1,16 @@
 from tkinter import *
-from Database import Database
+from Client.Classes.ClientCommands import ClientCommands
 
 
-class WindowChat(Database):
-    def __init__(self, master):
-        super().__init__()
-        self.master = master
+class WindowChat:
+    def __init__(self,connexion):
+        self.connexion=connexion
+        master = Tk()
         master.title("MyDiscord")
         master.geometry("800x600")
         master.resizable(False, False)
         master.configure(background="#4f4d4d")
-        self.curseur = self.db().cursor()
-
-        self.curseur.execute("SELECT nom FROM salon")
-        self.result = self.curseur.fetchall()
-        self.result = [nom[0].replace("{", "") for nom in self.result]
+        self.result = [nom[1].replace("{", "") for nom in self.connexion.getSalonList()]
 
         self.selected1 = StringVar()
 
@@ -31,8 +27,9 @@ class WindowChat(Database):
         self.btn_inscription = Button(master, text="Send", width=7, height=1, bg='#6451ef', fg='#FFFFFF', font=('arial', 15, 'bold'))
         self.btn_inscription.place(x=650, y=550)
 
+        master.mainloop()
     def open_window(self):  # fonction pour ouvrir une fenètre secondaire
-        window = Toplevel(self.master)
+        window = Toplevel()
         window.title("Sous-fenêtre")
         window.geometry("200x200")
         window.configure(background="#4f4d4d")
@@ -47,7 +44,3 @@ class WindowChat(Database):
         Button(window, text="add", width=5, height=1, font=('arial', 30, 'bold'), ).place(x=25, y=100)
 
 
-
-root = Tk()
-gui = WindowChat(root)
-root.mainloop()

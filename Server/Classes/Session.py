@@ -16,12 +16,6 @@ class Session:
         # self.__user_id=#Identifiant de l'utilisateur dans la base de donnée (différent de celui de session)
         self.__session_objet.send(self.__session_id.to_bytes(2, 'big'))  # Envoie de l'identifiant de connexion(ID du thread)
         self.__db = db.Database()
-
-    def print_id(self):
-        print("id stocké en objet")
-        print(self.__session_id)
-        return self.__session_id
-
     def __identification(self):
         # Toutes les requêtes lorsque l'utilisateur est authentifié
         # doivent normalement commencer par l'id de connexion(ID du thread dont la connexion est lié)

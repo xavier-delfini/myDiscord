@@ -8,7 +8,7 @@ from Client.Classes.ClientCommands import ClientCommands
 Test = ClientCommands()
 Test.user_connexion("a", "a")
 #print(Test.get_salon_messages(1))
-#Test.getSalonList()
+Test.getSalonList()
 print(Test.SearchPrivateSalon("a"))
 #TODO:Test envoie messages
 #TODO:Test recup salon
