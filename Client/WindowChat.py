@@ -31,7 +31,7 @@ class WindowChat(Database):
         self.btn_inscription = Button(master, text="Send", width=7, height=1, bg='#6451ef', fg='#FFFFFF', font=('arial', 15, 'bold'))
         self.btn_inscription.place(x=650, y=550)
 
-    def open_window(self):  # fonction pour ouvrir une fenètre secondaire, afin de changer l'heure
+    def open_window(self):  # fonction pour ouvrir une fenètre secondaire
         window = Toplevel(self.master)
         window.title("Sous-fenêtre")
         window.geometry("200x200")
