@@ -6,8 +6,8 @@ import time
 from Client.parameters import \
     constant as c  # Importation des constantes SERVER_IP et SERVER_PORT(déclarer comme constantes puisque ces valeurs ne sont pas censer changer en cours d'execution dans notre cas
 
-
-# TODO:Method recup id salon, chercher un salon privée par mot de passe
+#Fichier de test dans Test.ClientTest
+#TODO:Voice Chat envoie , Voice Chat reception
 class ClientCommands:
     def __init__(self):
         self.__session_id = -1
@@ -124,4 +124,4 @@ class ClientCommands:
         else:
             return 2
 
-#Fichier de test dans Test.ClientTest
+
