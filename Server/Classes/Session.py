@@ -10,7 +10,7 @@ class Session:
     def __init__(self, objet, user_id):
         print("Démmarage session ")
         self.__session_id = threading.get_ident()
-        self.__user_id=user_id
+        self.__user_id=user_id[0]
         self.__session_objet = objet
         print("Envoie id ", self.__session_id)
         # self.__user_id=#Identifiant de l'utilisateur dans la base de donnée (différent de celui de session)
@@ -36,6 +36,7 @@ class Session:
                     case "b'GetMessage'":
                         self.__GetMessage()
                     case "b'SendMessage'":
+                        print("Commande reçu")
                         self.__SendMessage()
                     case "b'GetSalonList'":
                         self.__GetSalonList()
@@ -66,13 +67,12 @@ class Session:
         sys.exit()
 
     def __SendMessage(self):
-        message = str(self.__session_objet.recv(1001).decode())
-        sender_id = int.from_bytes(self.__session_objet.recv(1001), byteorder='big')
+
+        message = self.__session_objet.recv(2048)
+        print("Message reçu")
+        message = pickle.loads(message)
         print(message)
-        print(sender_id)
-        salon_id = int.from_bytes(self.__session_objet.recv(1001), byteorder='big')
-        print(salon_id)
-        self.__db.add_message_to_database(message, self.__user_id, salon_id)
+        self.__db.add_message_to_database(message[0], self.__user_id, message[1])
 
     def __GetSalonList(self):
         bytes_array = pickle.dumps(self.__db.get_salon_list())

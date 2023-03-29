@@ -98,5 +98,5 @@ class Database:
 
 
 #test = Database()
-#print(test.get_messages(1))
+#print(test.add_message_to_database("ABC",1,1))
 

@@ -47,11 +47,13 @@ class ClientCommands:
 
     # def get_user_id
 
-    def send_message(self, session_id, user_id, message, salon_id):
+    def send_message(self,message, salon_id):
         self.authentification_with_server()
+        print("Envoie commande envoye message")
         self.__socket.send(bytes("SendMessage", "utf-8"))
         time.sleep(1)
-        data = pickle.dumps([message, user_id, salon_id])
+        data = pickle.dumps([message,salon_id])
+        print("Envoie du message")
         self.__socket.send(data)
         time.sleep(1)
 
