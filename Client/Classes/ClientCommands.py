@@ -21,6 +21,7 @@ class ClientCommands:
 
     def authentification_with_server(self):
         # Envoi de l'id de session a chaque commande afin d'authentifier la requête
+        print(self.__session_id)
         time.sleep(1)
         session_id = self.__session_id.to_bytes(2, 'big')
         self.__socket.send(session_id)
