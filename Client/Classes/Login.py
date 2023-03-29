@@ -34,8 +34,6 @@ class Login:
         creer_btn.grid(column=0, row=4, padx=10, pady=20, sticky="E")
         self.root.mainloop()
 
-
-
     def connexion(self):
         if self.txt_email.get() == "" or self.txt_password.get() == "":
             messagebox.showerror("Erreur", "Veillez saisir l'Email et le mot de passe", parent=self.root)
@@ -53,6 +51,7 @@ class Login:
         self.root.destroy()
         from Client.Classes.Form import Form
         obj = Form()
+
     def create_chat_window(self):
         self.root.destroy()
         from Client.Classes.WindowChat import WindowChat

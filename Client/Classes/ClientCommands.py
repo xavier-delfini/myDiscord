@@ -7,7 +7,7 @@ from Client.parameters import \
     constant as c  # Importation des constantes SERVER_IP et SERVER_PORT(déclarer comme constantes puisque ces valeurs ne sont pas censer changer en cours d'execution dans notre cas
 
 
-# TODO:Method recup id salon, chercher un salon privée par mot de passe,créer un salon
+# TODO:Method recup id salon, chercher un salon privée par mot de passe
 class ClientCommands:
     def __init__(self):
         self.__session_id = -1
@@ -39,7 +39,6 @@ class ClientCommands:
         print("Envoie commande getmessage")
         self.__socket.send(bytes("GetMessage", "utf-8"))
         time.sleep(1)
-
         # Envoie identifiant salon
         print("Envoie id salon")
         salon_id = salon_id.to_bytes(2, 'big')
@@ -50,10 +49,9 @@ class ClientCommands:
         # Reception données messages
         Data = self.__socket.recv(10024)
         print(Data)
-        time.sleep(1)
-
         receved_string = pickle.loads(Data)
         print(list(receved_string))
+        return receved_string
 
     # def get_user_id
 

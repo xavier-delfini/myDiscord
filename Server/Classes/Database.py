@@ -8,8 +8,6 @@ class Database:
         self.__cursor = dbconnect.db.cursor()
 
     # -------Salon------
-    # TODO:def search_private_salon(self,passcode):
-
     def get_salon_list(self):  # Récupération des salons publics disponibles
         sql = "SELECT  * FROM discord.salon WHERE droit = 0"
         self.__cursor.execute(sql)
@@ -27,7 +25,7 @@ class Database:
 
     def get_messages(self, salon_id):  # Utilisateur
         if isinstance(salon_id, int):
-            sql = "SELECT * FROM discord.messages WHERE salon_id = %s ORDER BY messagetime DESC "
+            sql = "SELECT messages.id, message, messagetime, discord.utilisateurs.nom  FROM discord.messages LEFT JOIN discord.utilisateurs ON messages.sender_id = utilisateurs.id WHERE salon_id = %s ORDER BY messagetime DESC"
             self.__cursor.execute(sql, [salon_id])
             return self.__cursor.fetchall()
         else:
@@ -100,4 +98,5 @@ class Database:
 
 
 #test = Database()
-#print(test.CreateSalon("Salon6", 0))
+#print(test.get_messages(1))
+
