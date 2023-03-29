@@ -16,7 +16,6 @@ class ClientCommands:
         print("Connection on {}".format(c.SERVER_PORT))
 
     def get_session_id(self):
-        print("Réception id")
         self.__session_id = int.from_bytes(self.__socket.recv(1024), byteorder='big')
         print(self.__session_id)
 
@@ -26,13 +25,6 @@ class ClientCommands:
         session_id = self.__session_id.to_bytes(2, 'big')
         self.__socket.send(session_id)
         time.sleep(1)
-
-    def verif_email(self, mail):
-        print("vérif_mail")
-        self.__socket.send(bytes("VerifMail", "utf-8"))
-        time.sleep(0.5)
-        self.__socket.send(bytes(mail, "utf-8"))
-
     def get_salon_messages(self, salon_id):
         self.authentification_with_server()
         # Envoi de la commande GetMessage
@@ -95,7 +87,6 @@ class ClientCommands:
 
         print(result)
         if result == b'Account Created':
-            self.get_session_id()
             return 1
         elif result == b'Failed':
             return 2

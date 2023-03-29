@@ -1,7 +1,7 @@
 from Server.parameters import SQL_Connexion as dbconnect
 
 
-# TODO:Method recup id salon, chercher un salon privée par mot de passe,créer un salon
+# TODO:Method recup id salon, chercher un salon privée par mot de passe
 class Database:
 
     def __init__(self):

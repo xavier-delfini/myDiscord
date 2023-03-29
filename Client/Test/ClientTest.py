@@ -1,5 +1,5 @@
 # coding: utf-8
-
+#Fichier de test sans UI pour le programme
 import socket
 import pickle
 import time

@@ -5,7 +5,7 @@ import pickle
 from Server.Classes import Database as db
 
 
-#TODO:chercher un salon privée par mot de passe,créer un salon
+#TODO:chercher un salon privée par mot de passe
 class Session:
     def __init__(self, objet, user_id):
         print("Démmarage session ")

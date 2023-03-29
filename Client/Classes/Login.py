@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from Client.Classes.ClientCommands import ClientCommands as clientcommands
+#TODO:Améliorer le front
 class Login:
     def __init__(self):
         self.connexion_object = None

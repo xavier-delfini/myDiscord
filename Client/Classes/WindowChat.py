@@ -1,5 +1,8 @@
 from tkinter import *
 from Client.Classes.ClientCommands import ClientCommands
+#TODO:Affichage messages
+#TODO:Changement salons
+#TODO:Création salons
 
 
 class WindowChat:
