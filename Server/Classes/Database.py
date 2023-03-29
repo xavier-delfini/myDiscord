@@ -1,15 +1,13 @@
 from Server.parameters import SQL_Connexion as dbconnect
 
 
-# TODO:Method recup id salon, chercher un salon privée par mot de passe,créer un salon
+# TODO:Methode chercher un salon privée par mot de passe à tester
 class Database:
 
     def __init__(self):
         self.__cursor = dbconnect.db.cursor()
 
     # -------Salon------
-    # TODO:def search_private_salon(self,passcode):
-
     def get_salon_list(self):  # Récupération des salons publics disponibles
         sql = "SELECT  * FROM discord.salon WHERE droit = 0"
         self.__cursor.execute(sql)
@@ -27,7 +25,7 @@ class Database:
 
     def get_messages(self, salon_id):  # Utilisateur
         if isinstance(salon_id, int):
-            sql = "SELECT * FROM discord.messages WHERE salon_id = %s ORDER BY messagetime DESC "
+            sql = "SELECT messages.id, message, messagetime, discord.utilisateurs.nom  FROM discord.messages LEFT JOIN discord.utilisateurs ON messages.sender_id = utilisateurs.id WHERE salon_id = %s ORDER BY messagetime DESC"
             self.__cursor.execute(sql, [salon_id])
             return self.__cursor.fetchall()
         else:
@@ -68,24 +66,37 @@ class Database:
         else:
             return 2
 
-    def SearchForPrivateSalon(self,passcode):
+    def SearchForPrivateSalon(self, passcode):
         sql = "SELECT * FROM discord.salon WHERE droit=1 and passcode=%s"
-        value=(passcode)
-        self.__cursor.execute(sql,value)
-        result=self.__cursor.fetchall()
+        value = (passcode)
+        self.__cursor.execute(sql, value)
+        result = self.__cursor.fetchall()
         if result:
             return result
         else:
             return 1
-    def CreateSalon(self,name,accessibility,passcode):
-        if self.__verifySalonName(name)==1:
-            sql="INSERT INTO discord.salon(nom,droit,passcode) VALUES(%s,%s,%s)"
-            values=(name,accessibility,passcode)
 
-    def __verifySalonName(self,name):
-        sql="SELECT * INTO discord.salon WHERE nom=%s"
-        values=(name)
+    def CreateSalon(self, name, accessibility=0, passcode=None):
+        if self.__verifySalonName(name) == 1:
+            sql = "INSERT INTO discord.salon(nom,droit,passcode) VALUES(%s,%s,%s)"
+            values = (name, accessibility, passcode)
+            self.__cursor.execute(sql, values)
+            dbconnect.db.commit()
+            return 1
+        else:
+            return 2
+
+    def __verifySalonName(self, name):
+        sql = "SELECT * FROM discord.salon WHERE nom=%s"
+        values = ([name])
+        self.__cursor.execute(sql, values)
+        result = self.__cursor.fetchall()
+        if result:
+            return 2
+        else:
+            return 1
 
 
-#test=Database()
-# print(test.get_user_id(["a"]))
+#test = Database()
+#print(test.add_message_to_database("ABC",1,1))
+

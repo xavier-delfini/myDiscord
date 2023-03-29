@@ -1,5 +1,5 @@
 # coding: utf-8
-
+#Fichier de test sans UI pour le programme
 import socket
 import pickle
 import time
@@ -7,9 +7,11 @@ from Client.Classes.ClientCommands import ClientCommands
 
 Test = ClientCommands()
 Test.user_connexion("a", "a")
-#print(Test.get_salon_messages(1))
-#Test.getSalonList()
-print(Test.SearchPrivateSalon("a"))
+Test.send_message("Ceci est un test",1)
+print(Test.get_salon_messages(1))
+Test.getSalonList()
+#print(Test.CreateSalon("Salon15"))
+#print(Test.SearchPrivateSalon("a"))
 #TODO:Test envoie messages
 #TODO:Test recup salon
 

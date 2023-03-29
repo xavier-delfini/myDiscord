@@ -1,6 +1,6 @@
 from Server.Classes import Database as db
 import pickle
-
+#Fini
 class NoSession:
     def __init__(self, objet):
         # Timeout.__init__(self,is_session)
@@ -19,7 +19,6 @@ class NoSession:
                 case b'user_create':
                     user = self.__client_objet.recv(4096)
                     user = pickle.loads(user)
-                    print("chargement des données")
                     print(user)
                     if self.__db.verif_mail(user[2]) == 1:
                         self.__create_user(user[0], user[1], user[2], user[3])
@@ -31,7 +30,6 @@ class NoSession:
                         break
 
     def __create_user(self, prenom, nom, mail, password):
-        print("create_user")
         self.__db.user_creation(prenom, nom, mail, password)
 
     def __connexion(self, mail, password):

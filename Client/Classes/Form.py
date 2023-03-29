@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from Client.Classes.ClientCommands import ClientCommands
-
+#TODO:Améliorer le front
 class Form:
     def __init__(self):
         self.root = Tk()
