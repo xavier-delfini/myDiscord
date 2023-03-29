@@ -61,7 +61,6 @@ class Session:
         self.__session_objet.send(bytes_array)
 
     # def __VocalChat(self):
-    # def __SentMessage(self):
 
     def __Disconnect(self):
         sys.exit()
@@ -83,8 +82,8 @@ class Session:
         passcode=self.__session_objet.recv(1024)
         print("reception du passcode")
         passcode=passcode.decode()
-
-        result=self.__db.SearchForPrivateSalon([passcode])
+        print(passcode)
+        result=self.__db.SearchForPrivateSalon(passcode)
         print("recherche dans la base de donnée")
         result=pickle.dumps(result)
         self.__session_objet.send(result)

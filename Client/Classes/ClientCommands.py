@@ -124,9 +124,4 @@ class ClientCommands:
         else:
             return 2
 
-# a = ClientCommands()
-# id = a.get_session_id()
-# a.get_salon_messages(id, 1)
-# a.send_message(id, 1, "Test_Objet", 1)
-# a.disconnect(id)
-# socket.close()
+#Fichier de test dans Test.ClientTest

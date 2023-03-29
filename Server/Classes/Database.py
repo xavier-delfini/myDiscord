@@ -68,7 +68,7 @@ class Database:
 
     def SearchForPrivateSalon(self, passcode):
         sql = "SELECT * FROM discord.salon WHERE droit=1 and passcode=%s"
-        value = (passcode)
+        value = [passcode]
         self.__cursor.execute(sql, value)
         result = self.__cursor.fetchall()
         if result:
@@ -98,5 +98,5 @@ class Database:
 
 
 #test = Database()
-#print(test.add_message_to_database("ABC",1,1))
+#print(test.SearchForPrivateSalon("a"))
 
