@@ -27,5 +27,6 @@ def main():
             print('Connexion de :', addr[0], ':', addr[1])
             executor.submit(instance_create, c)#Création d'une instance utilisant la fonction instance_create
             #Et qui passe en argument l'objet de connexion
+            #Cette action créer un thread pour l'utilisateur qui vient de démarrer une connexion avec notre server
     server.close()
 main()

@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 from Client.Classes.ClientCommands import ClientCommands
 from functools import partial
 
@@ -18,6 +19,8 @@ class WindowChat:
         master.resizable(False, False)
         master.configure(background="#4f4d4d")
         self.result = [nom[1].replace("{", "") for nom in self.connexion.getSalonList()]
+
+       
 
         self.selected1 = StringVar()
 
