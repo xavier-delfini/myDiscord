@@ -127,6 +127,12 @@ class ClientCommands:
             return 2
 
     def VoiceChat(self,salon):
+
         audio= pyaudio.PyAudio()
         buffer=1024
+        output_stream = audio.open(format=pyaudio.paInt16,output=True, rate=44100, channels=2,frames_per_buffer=buffer)
         input_stream = audio.open(format=pyaudio.paInt16,input=True, rate=44100, channels=2,frames_per_buffer=buffer)
+    def record(self):
+        while True:
+            data = self.input_stream.read(self.buffer)
+            self.transport.write(data, self.another_client)
