@@ -3,8 +3,11 @@
 import socket
 import pickle
 import time
-from Client.parameters import \
-    constant as c  # Importation des constantes SERVER_IP et SERVER_PORT(déclarer comme constantes puisque ces valeurs ne sont pas censer changer en cours d'execution dans notre cas
+import pyaudio
+from Client.parameters import constant as c
+import wave
+
+# Importation des constantes SERVER_IP et SERVER_PORT(déclarer comme constantes puisque ces valeurs ne sont pas censer changer en cours d'execution dans notre cas)
 
 #Fichier de test dans Test.ClientTest
 #TODO:Voice Chat envoie , Voice Chat reception
@@ -26,6 +29,7 @@ class ClientCommands:
         session_id = self.__session_id.to_bytes(2, 'big')
         self.__socket.send(session_id)
         time.sleep(1)
+
     def get_salon_messages(self, salon_id):
         self.authentification_with_server()
         # Envoi de la commande GetMessage
@@ -45,8 +49,6 @@ class ClientCommands:
         receved_string = pickle.loads(Data)
         print(list(receved_string))
         return receved_string
-
-    # def get_user_id
 
     def send_message(self,message, salon_id):
         self.authentification_with_server()
@@ -124,4 +126,7 @@ class ClientCommands:
         else:
             return 2
 
-
+    def VoiceChat(self,salon):
+        audio= pyaudio.PyAudio()
+        buffer=1024
+        input_stream = audio.open(format=pyaudio.paInt16,input=True, rate=44100, channels=2,frames_per_buffer=buffer)
