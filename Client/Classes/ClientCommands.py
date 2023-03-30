@@ -24,8 +24,6 @@ class ClientCommands:
 
     def authentification_with_server(self):
         # Envoi de l'id de session a chaque commande afin d'authentifier la requête
-        print(self.__session_id)
-        time.sleep(1)
         session_id = self.__session_id.to_bytes(2, 'big')
         self.__socket.send(session_id)
         time.sleep(1)
@@ -35,14 +33,13 @@ class ClientCommands:
         # Envoi de la commande GetMessage
         print("Envoie commande getmessage")
         self.__socket.send(bytes("GetMessage", "utf-8"))
-        time.sleep(1)
+        #time.sleep(1)
         # Envoie identifiant salon
         print("Envoie id salon")
         salon_id = salon_id.to_bytes(2, 'big')
         print(salon_id)
         self.__socket.send(salon_id)
-        time.sleep(1)
-
+        #time.sleep(1)
         # Reception données messages
         Data = self.__socket.recv(10024)
         print(Data)
@@ -54,11 +51,11 @@ class ClientCommands:
         self.authentification_with_server()
         print("Envoie commande envoye message")
         self.__socket.send(bytes("SendMessage", "utf-8"))
-        time.sleep(1)
+        #time.sleep(1)
         data = pickle.dumps([message,salon_id])
         print("Envoie du message")
         self.__socket.send(data)
-        time.sleep(1)
+        #time.sleep(1)
 
     def disconnect(self, session_id):
         if session_id is not None:
