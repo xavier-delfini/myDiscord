@@ -1,5 +1,5 @@
 # coding: utf-8
-
+import hashlib
 import socket
 import pickle
 import time
@@ -67,7 +67,7 @@ class ClientCommands:
             time.sleep(1)
 
     def user_connexion(self, mail, password):
-        # TODO:Password à hashé
+        password = self.__hash_password(password)
         print("Envoie requete")
         self.__socket.send(bytes("connexion", "utf-8"))
         time.sleep(1)
@@ -83,7 +83,7 @@ class ClientCommands:
             return 0
 
     def user_creation(self, prenom, nom, mail, password):
-        print(password)
+        password=self.__hash_password(password)
         user_infos = pickle.dumps((prenom, nom, mail, password))
         self.__socket.send(bytes("user_create", "utf-8"))
         time.sleep(1)
@@ -136,3 +136,9 @@ class ClientCommands:
         while True:
             data = self.input_stream.read(self.buffer)
             self.transport.write(data, self.another_client)
+
+    def __hash_password(self,password):
+        hash_object = hashlib.sha256()
+        hash_object.update(password.encode())
+        hex_hash = hash_object.hexdigest()
+        return hex_hash
