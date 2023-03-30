@@ -96,6 +96,12 @@ class ClientCommands:
         elif result == b'Failed':
             return 2
 
+    def __hash_password(self,password):
+        hash_object = hashlib.sha256()
+        hash_object.update(password.encode())
+        hex_hash = hash_object.hexdigest()
+        return hex_hash
+
     def getSalonList(self):
         self.authentification_with_server()
         self.__socket.send(bytes("GetSalonList", "utf-8"))
@@ -137,8 +143,4 @@ class ClientCommands:
             data = self.input_stream.read(self.buffer)
             self.transport.write(data, self.another_client)
 
-    def __hash_password(self,password):
-        hash_object = hashlib.sha256()
-        hash_object.update(password.encode())
-        hex_hash = hash_object.hexdigest()
-        return hex_hash
+

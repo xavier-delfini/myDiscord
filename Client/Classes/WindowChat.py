@@ -1,3 +1,4 @@
+import tkinter.constants
 from tkinter import *
 from tkinter import ttk
 from Client.Classes.ClientCommands import ClientCommands
@@ -20,8 +21,17 @@ class WindowChat:
         master.configure(background="#4f4d4d")
         self.result = [nom[1].replace("{", "") for nom in self.connexion.getSalonList()]
 
-       
-
+        chatbox=ttk.Frame(master, borderwidth=2, relief="ridge", padding="0 10 0 10")
+        v = Scrollbar(chatbox, orient='vertical')
+        v.pack(side=RIGHT, fill='y')
+        variabletext= StringVar
+        # Add a text widget
+        self.text = Text(chatbox, font=("Georgia, 10"), yscrollcommand=v.set)
+        self.get_messages()
+        # Attach the scrollbar with the text widget
+        v.config(command=self.text.yview)
+        self.text.pack()
+        chatbox.place(x=48, y=135)
         self.selected1 = StringVar()
 
         self.option_menu = OptionMenu(master, self.selected1, *self.result)
@@ -44,11 +54,15 @@ class WindowChat:
         master.mainloop()
 
     def send_message(self):
-
+        self.text.delete("1.0", "end")
         if self.psd.get() != "":
             self.connexion.send_message(self.psd.get(), self.current_salon)
             self.mes_var.set("")
         # Commande actualisation pour la récupération des messages changer
+        self.get_messages()
+    def get_messages(self):
+        for message in self.connexion.get_salon_messages(self.current_salon):
+            self.text.insert(END,message[1]+"\n\n")
 
     def open_window(self):  # fonction pour ouvrir une fenètre secondaire
         window = Toplevel()
@@ -66,5 +80,5 @@ class WindowChat:
         entrytroi.pack()
         c1 = Checkbutton(window, text='Python', onvalue=1, offvalue=0)
         c1.pack()
-        Button(window, text="add", width=5, height=1, font=('arial', 30, 'bold'), ).place(x=25, y=100)
+        Button(window, text="add", width=5, height=1, font=('arial', 30, 'bold')).place(x=25, y=100)
 # command=lambda:self.command.CreateSalon(entryun,entrydeu,entrytroi)

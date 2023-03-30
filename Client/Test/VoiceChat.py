@@ -14,7 +14,6 @@ class VoiceChat:
         self.input_stream = self.audio.open(format=pyaudio.paInt16, input=True, rate=44100, channels=1,
                                             frames_per_buffer=self.buffer)
     def test(self):
-        type(self.output)
         data = self.input_stream.read(self.buffer)
     def record(self):
         while True:
