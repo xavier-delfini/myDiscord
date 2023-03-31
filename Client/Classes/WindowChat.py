@@ -34,12 +34,9 @@ class WindowChat:
         self.text.pack()
         chatbox.place(x=48, y=135)
 
-        self.option_menu = OptionMenu(master, self.selected1, *self.result, command=self.get_messages)
+        self.option_menu = OptionMenu(master, self.selected1, *self.result, command=self.salon_change)
         self.option_menu.config(width=30, bg='#a09797', fg='#000000', font=('Arial', 16))
         self.option_menu.pack()
-        self.btn_refresh = Button(master, text="Réactualiser", width=10, height=1, bg='#6451ef', fg='#FFFFFF',
-                                  font=('arial', 15, 'bold'), command=self.get_messages)
-        self.btn_refresh.place(x=550, y=0)
         self.btn_newchan = Button(master, text="Nouveau salon", width=10, height=1, bg='#6451ef', fg='#FFFFFF',
                                   font=('arial', 15, 'bold'), command=self.open_window)
         self.btn_newchan.place(x=605, y=0)
@@ -62,7 +59,8 @@ class WindowChat:
             self.mes_var.set("")
         # Commande actualisation pour la récupération des messages changer
         self.get_messages()
-
+    def salon_change(self,event):
+        self.get_messages()
     def get_messages(self):
         self.text.delete("1.0", "end")
         self.current_salon = self.selected1.get()
