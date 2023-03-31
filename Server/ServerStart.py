@@ -6,7 +6,6 @@ from Server.Classes.NoSession import NoSession
 def instance_create(c):
 
     instance_object = NoSession(c)
-    print("Lancement de la Classe NoSession")
     instance_object.Main()
     del instance_object
     concurrent.futures.Future.done()

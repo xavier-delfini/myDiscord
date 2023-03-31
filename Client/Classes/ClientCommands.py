@@ -1,13 +1,16 @@
 # coding: utf-8
-
+import hashlib
 import socket
 import pickle
 import time
-from Client.parameters import \
-    constant as c  # Importation des constantes SERVER_IP et SERVER_PORT(déclarer comme constantes puisque ces valeurs ne sont pas censer changer en cours d'execution dans notre cas
+import pyaudio
+from Client.parameters import constant as c
+import wave
 
+# Importation des constantes SERVER_IP et SERVER_PORT(déclarer comme constantes puisque ces valeurs ne sont pas censer changer en cours d'execution dans notre cas)
 
-# TODO:Method recup id salon, chercher un salon privée par mot de passe
+#Fichier de test dans Test.ClientTest
+#TODO:Voice Chat envoie , Voice Chat reception
 class ClientCommands:
     def __init__(self):
         self.__session_id = -1
@@ -21,24 +24,22 @@ class ClientCommands:
 
     def authentification_with_server(self):
         # Envoi de l'id de session a chaque commande afin d'authentifier la requête
-        print(self.__session_id)
-        time.sleep(1)
         session_id = self.__session_id.to_bytes(2, 'big')
         self.__socket.send(session_id)
         time.sleep(1)
-    def get_salon_messages(self, salon_id):
+
+    def get_salon_messages(self, salon_name):
         self.authentification_with_server()
         # Envoi de la commande GetMessage
         print("Envoie commande getmessage")
         self.__socket.send(bytes("GetMessage", "utf-8"))
-        time.sleep(1)
+        #time.sleep(1)
         # Envoie identifiant salon
-        print("Envoie id salon")
-        salon_id = salon_id.to_bytes(2, 'big')
-        print(salon_id)
-        self.__socket.send(salon_id)
-        time.sleep(1)
-
+        print("Envoie nom du salon")
+        salon_name = bytes(salon_name, "utf-8")
+        print(salon_name)
+        self.__socket.send(salon_name)
+        #time.sleep(1)
         # Reception données messages
         Data = self.__socket.recv(10024)
         print(Data)
@@ -46,17 +47,15 @@ class ClientCommands:
         print(list(receved_string))
         return receved_string
 
-    # def get_user_id
-
     def send_message(self,message, salon_id):
         self.authentification_with_server()
         print("Envoie commande envoye message")
         self.__socket.send(bytes("SendMessage", "utf-8"))
-        time.sleep(1)
+        #time.sleep(1)
         data = pickle.dumps([message,salon_id])
         print("Envoie du message")
         self.__socket.send(data)
-        time.sleep(1)
+        #time.sleep(1)
 
     def disconnect(self, session_id):
         if session_id is not None:
@@ -65,7 +64,7 @@ class ClientCommands:
             time.sleep(1)
 
     def user_connexion(self, mail, password):
-        # TODO:Password à hashé
+        password = self.__hash_password(password)
         print("Envoie requete")
         self.__socket.send(bytes("connexion", "utf-8"))
         time.sleep(1)
@@ -81,7 +80,7 @@ class ClientCommands:
             return 0
 
     def user_creation(self, prenom, nom, mail, password):
-        print(password)
+        password=self.__hash_password(password)
         user_infos = pickle.dumps((prenom, nom, mail, password))
         self.__socket.send(bytes("user_create", "utf-8"))
         time.sleep(1)
@@ -93,6 +92,12 @@ class ClientCommands:
             return 1
         elif result == b'Failed':
             return 2
+
+    def __hash_password(self,password):
+        hash_object = hashlib.sha256()
+        hash_object.update(password.encode())
+        hex_hash = hash_object.hexdigest()
+        return hex_hash
 
     def getSalonList(self):
         self.authentification_with_server()
@@ -124,9 +129,15 @@ class ClientCommands:
         else:
             return 2
 
-# a = ClientCommands()
-# id = a.get_session_id()
-# a.get_salon_messages(id, 1)
-# a.send_message(id, 1, "Test_Objet", 1)
-# a.disconnect(id)
-# socket.close()
+    '''def VoiceChat(self,salon):
+
+        audio= pyaudio.PyAudio()
+        buffer=1024
+        output_stream = audio.open(format=pyaudio.paInt16,output=True, rate=44100, channels=2,frames_per_buffer=buffer)
+        input_stream = audio.open(format=pyaudio.paInt16,input=True, rate=44100, channels=2,frames_per_buffer=buffer)
+    def record(self):
+        while True:
+            data = self.input_stream.read(self.buffer)
+            self.transport.write(data, self.another_client)'''
+
+

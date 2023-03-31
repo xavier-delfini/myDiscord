@@ -1,15 +1,14 @@
 import concurrent.futures
+from Client.Classes.ClientCommands import ClientCommands
 
-import ClientTest as CT
 #TODO:Fixer ce fichier
 def launch_spam():
-    while i!=10:
-        id=CT.get_session_id()
-        CT.get_salon_messages(id,1)
-        CT.send_message(id,1,"Salut",1)
-        #socket.close()
+    Test = ClientCommands()
+    Test.user_connexion("a", "a")
+    Test.send_message("Ceci est un test", 1)
+    print(Test.get_salon_messages(1))
+    Test.getSalonList()
 i=0
-concurrent.futures.
 with concurrent.futures.ThreadPoolExecutor() as executor:
     while i!=10:
         executor.submit(launch_spam())#Création d'une instance utilisant la fonction instance_create

@@ -53,15 +53,14 @@ class Session:
 
     def __GetMessage(self):
         print("Récupération id")
-        id = self.__session_objet.recv(1001)  # Récupération de l'id du salon
+        salon_id = self.__session_objet.recv(1001)  # Récupération de l'id du salon
         print("compressions des données réçu:")
-        id=int.from_bytes(id, byteorder='big')
-        bytes_array = pickle.dumps(self.__db.get_messages(id))
+        salon_id=salon_id.decode()
+        bytes_array = pickle.dumps(self.__db.get_messages(salon_id))
         print(bytes_array)
         self.__session_objet.send(bytes_array)
 
     # def __VocalChat(self):
-    # def __SentMessage(self):
 
     def __Disconnect(self):
         sys.exit()
@@ -83,8 +82,8 @@ class Session:
         passcode=self.__session_objet.recv(1024)
         print("reception du passcode")
         passcode=passcode.decode()
-
-        result=self.__db.SearchForPrivateSalon([passcode])
+        print(passcode)
+        result=self.__db.SearchForPrivateSalon(passcode)
         print("recherche dans la base de donnée")
         result=pickle.dumps(result)
         self.__session_objet.send(result)
