@@ -16,17 +16,17 @@ class Database:
     # ------Messages-------
     def add_message_to_database(self, message, user_id, salon):  # 1 utilisateur 2 classe session 3 utilisateur
         if user_id != "" and message != "" and salon != "":
-            command = "INSERT INTO discord.messages(message,sender_id,salon_id) VALUES(%s,%s,%s)"
+            command = "INSERT INTO discord.messages(message,sender_id,salon_name) VALUES(%s,%s,%s)"
             values = (message, user_id, salon)
             self.__cursor.execute(command, values)
             dbconnect.db.commit()
         else:
             return "No Values"
 
-    def get_messages(self, salon_id):  # Utilisateur
-        if isinstance(salon_id, int):
-            sql = "SELECT messages.id, message, messagetime, discord.utilisateurs.nom  FROM discord.messages LEFT JOIN discord.utilisateurs ON messages.sender_id = utilisateurs.id WHERE salon_id = %s ORDER BY messagetime"
-            self.__cursor.execute(sql, [salon_id])
+    def get_messages(self, salon_name):  # Utilisateur
+        if isinstance(salon_name, str):
+            sql = "SELECT messages.id, message, messagetime,utilisateurs.nom  FROM discord.messages LEFT JOIN utilisateurs ON messages.sender_id = utilisateurs.id WHERE messages.salon_name = %s ORDER BY messagetime"
+            self.__cursor.execute(sql, [salon_name])
             return self.__cursor.fetchall()
         else:
             return "Le numéro de salon est incorrect"
@@ -97,6 +97,5 @@ class Database:
             return 1
 
 
-#test = Database()
-#print(test.SearchForPrivateSalon("a"))
+test = Database()
 

@@ -53,10 +53,10 @@ class Session:
 
     def __GetMessage(self):
         print("Récupération id")
-        id = self.__session_objet.recv(1001)  # Récupération de l'id du salon
+        salon_id = self.__session_objet.recv(1001)  # Récupération de l'id du salon
         print("compressions des données réçu:")
-        id=int.from_bytes(id, byteorder='big')
-        bytes_array = pickle.dumps(self.__db.get_messages(id))
+        salon_id=salon_id.decode()
+        bytes_array = pickle.dumps(self.__db.get_messages(salon_id))
         print(bytes_array)
         self.__session_objet.send(bytes_array)
 

@@ -1,20 +1,20 @@
-import tkinter.constants
 from tkinter import *
 from tkinter import ttk
-from Client.Classes.ClientCommands import ClientCommands
 from functools import partial
 
 
-# TODO:Affichage messages
 # TODO:Changement salons
 # TODO:Création salons
 
 
 class WindowChat:
     def __init__(self, connexion):
-        self.connexion = connexion
-        self.current_salon = 1
         master = Tk()
+        self.connexion = connexion
+        self.selected1 = StringVar()
+        self.current_salon = "Salon 1"
+        self.selected1.set(str(self.current_salon))
+
         master.title("MyDiscord")
         master.geometry("800x600")
         master.resizable(False, False)
@@ -27,18 +27,20 @@ class WindowChat:
         variabletext = StringVar
         # Add a text widget
         self.text = Text(chatbox, font=("Georgia, 10"), yscrollcommand=v.set)
+
         self.get_messages()
         # Attach the scrollbar with the text widget
         v.config(command=self.text.yview)
         self.text.pack()
         chatbox.place(x=48, y=135)
-        self.selected1 = StringVar()
 
-        self.option_menu = OptionMenu(master, self.selected1, *self.result)
+        self.option_menu = OptionMenu(master, self.selected1, *self.result, command=self.get_messages)
         self.option_menu.config(width=30, bg='#a09797', fg='#000000', font=('Arial', 16))
         self.option_menu.pack()
-
-        self.btn_newchan = Button(master, text="New Chanel", width=10, height=1, bg='#6451ef', fg='#FFFFFF',
+        self.btn_refresh = Button(master, text="Réactualiser", width=10, height=1, bg='#6451ef', fg='#FFFFFF',
+                                  font=('arial', 15, 'bold'), command=self.get_messages)
+        self.btn_refresh.place(x=550, y=0)
+        self.btn_newchan = Button(master, text="Nouveau salon", width=10, height=1, bg='#6451ef', fg='#FFFFFF',
                                   font=('arial', 15, 'bold'), command=self.open_window)
         self.btn_newchan.place(x=605, y=0)
 
@@ -62,6 +64,8 @@ class WindowChat:
         self.get_messages()
 
     def get_messages(self):
+        self.text.delete("1.0", "end")
+        self.current_salon = self.selected1.get()
         for message in self.connexion.get_salon_messages(self.current_salon):
             self.text.insert(END, str(message[2]) + " " + message[3] + ": " + message[1] + "\n")
 

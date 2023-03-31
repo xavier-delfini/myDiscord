@@ -28,17 +28,17 @@ class ClientCommands:
         self.__socket.send(session_id)
         time.sleep(1)
 
-    def get_salon_messages(self, salon_id):
+    def get_salon_messages(self, salon_name):
         self.authentification_with_server()
         # Envoi de la commande GetMessage
         print("Envoie commande getmessage")
         self.__socket.send(bytes("GetMessage", "utf-8"))
         #time.sleep(1)
         # Envoie identifiant salon
-        print("Envoie id salon")
-        salon_id = salon_id.to_bytes(2, 'big')
-        print(salon_id)
-        self.__socket.send(salon_id)
+        print("Envoie nom du salon")
+        salon_name = bytes(salon_name, "utf-8")
+        print(salon_name)
+        self.__socket.send(salon_name)
         #time.sleep(1)
         # Reception données messages
         Data = self.__socket.recv(10024)
@@ -129,7 +129,7 @@ class ClientCommands:
         else:
             return 2
 
-    def VoiceChat(self,salon):
+    '''def VoiceChat(self,salon):
 
         audio= pyaudio.PyAudio()
         buffer=1024
@@ -138,6 +138,6 @@ class ClientCommands:
     def record(self):
         while True:
             data = self.input_stream.read(self.buffer)
-            self.transport.write(data, self.another_client)
+            self.transport.write(data, self.another_client)'''
 
 
