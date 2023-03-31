@@ -21,10 +21,10 @@ class WindowChat:
         master.configure(background="#4f4d4d")
         self.result = [nom[1].replace("{", "") for nom in self.connexion.getSalonList()]
 
-        chatbox=ttk.Frame(master, borderwidth=2, relief="ridge", padding="0 10 0 10")
+        chatbox = ttk.Frame(master, borderwidth=2, relief="ridge", padding="0 10 0 10")
         v = Scrollbar(chatbox, orient='vertical')
         v.pack(side=RIGHT, fill='y')
-        variabletext= StringVar
+        variabletext = StringVar
         # Add a text widget
         self.text = Text(chatbox, font=("Georgia, 10"), yscrollcommand=v.set)
         self.get_messages()
@@ -60,9 +60,10 @@ class WindowChat:
             self.mes_var.set("")
         # Commande actualisation pour la récupération des messages changer
         self.get_messages()
+
     def get_messages(self):
         for message in self.connexion.get_salon_messages(self.current_salon):
-            self.text.insert(END,message[1]+"\n\n")
+            self.text.insert(END, str(message[2]) + " " + message[3] + ": " + message[1] + "\n")
 
     def open_window(self):  # fonction pour ouvrir une fenètre secondaire
         window = Toplevel()
