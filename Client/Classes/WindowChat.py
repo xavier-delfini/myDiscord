@@ -48,7 +48,7 @@ class WindowChat:
 
         self.btn_inscription = Button(master, text="Send", height=1, bg='#6451ef', fg='#FFFFFF',
                                       font=('arial', 15, 'bold'), command=partial(self.send_message),
-                                      width=7)
+                                      width=10)
         self.btn_inscription.place(x=650, y=550)
         master.mainloop()
 
@@ -59,8 +59,10 @@ class WindowChat:
             self.mes_var.set("")
         # Commande actualisation pour la récupération des messages changer
         self.get_messages()
-    def salon_change(self,event):
+
+    def salon_change(self, event):
         self.get_messages()
+
     def get_messages(self):
         self.text.delete("1.0", "end")
         self.current_salon = self.selected1.get()
@@ -75,6 +77,8 @@ class WindowChat:
         entryun = Entry(window, width=50, bg='#FFFFFF', fg='#000000', font=('Arial', 16),
                         bd=5)  # notre entrée pour marquer la somme
         entryun.pack()
+        options = ["public","privé"]
+        #entrydeu=OptionMenu(window, options).pack()
         entrydeu = Entry(window, width=50, bg='#FFFFFF', fg='#000000', font=('Arial', 16),
                          bd=5)  # notre entrée pour marquer la somme
         entrydeu.pack()
@@ -83,5 +87,6 @@ class WindowChat:
         entrytroi.pack()
         c1 = Checkbutton(window, text='Python', onvalue=1, offvalue=0)
         c1.pack()
-        Button(window, text="add", width=5, height=1, font=('arial', 30, 'bold')).place(x=25, y=100)
-# command=lambda:self.command.CreateSalon(entryun,entrydeu,entrytroi)
+
+        Button(window, text="add", width=5, height=1, font=('arial', 30, 'bold'),
+               command=partial(self.connexion.CreateSalon, (entryun, entrydeu, entrytroi))).place(x=25, y=100)
